@@ -185,4 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'tv_api_key' => env('TV_API_KEY'),
+
 ];
