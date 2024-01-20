@@ -30,7 +30,7 @@ class TvProgrammesController extends Controller
             'date' => 'required|date_format:Y-m-d',
         ]);
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 400);
         }
         $tvProgrammesModel = new TvProgrammes();
         return $tvProgrammesModel->getGuide($channelNr, $date);
@@ -43,7 +43,8 @@ class TvProgrammesController extends Controller
      */
     public function upcoming(int $channelNr):string {
         $tvProgrammesModel = new TvProgrammes();
-        return $tvProgrammesModel->upcomingProgrammes($channelNr);    }
+        return $tvProgrammesModel->upcomingProgrammes($channelNr);
+    }
 
     /**
      * Add new programme to database, validate fields, return created record in json
@@ -59,7 +60,7 @@ class TvProgrammesController extends Controller
             'end_date' => 'required|date_format:Y-m-d H:i:s'
         ]);
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
+            return response()->json(['error' => $validator->errors()], 400);
         }
         $tvProgrammesModel = new TvProgrammes();
         return $tvProgrammesModel->addNewProgramme($request);
