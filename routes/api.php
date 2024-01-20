@@ -25,9 +25,12 @@ Route::group([
         'tv_api_key' // check api key
     ]
 ], function () {
-    Route::get('/upcoming/{channel_nr}', [TvProgrammesController::class, 'upcoming']);
-    Route::get('/guide/{channel_nr}/{date}', [TvProgrammesController::class, 'guide']);
-    Route::get('/on-air/{channel_nr}', [TvProgrammesController::class, 'onAir']);
+    Route::get('/upcoming/{channel_nr}', [TvProgrammesController::class, 'upcoming'])
+        ->where('channel_nr', '[1-3]+'); //channels only from 1-3
+    Route::get('/guide/{channel_nr}/{date}', [TvProgrammesController::class, 'guide'])
+        ->where('channel_nr', '[1-3]+'); //channels only from 1-3
+    Route::get('/on-air/{channel_nr}', [TvProgrammesController::class, 'onAir'])
+        ->where('channel_nr', '[1-3]+'); //channels only from 1-3
 });
 
-Route::middleware('throttle:tv-api')->get('/addProgram', [TvProgrammesController::class, 'addProgram']);
+Route::middleware(['throttle:tv-api', 'tv_api_key'])->post('/addProgram', [TvProgrammesController::class, 'addProgram']);
