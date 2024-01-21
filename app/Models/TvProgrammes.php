@@ -60,7 +60,9 @@ class TvProgrammes extends Model
         $dateFrom = Carbon::parse($date)->addHours(self::NEW_DAY_STARTS);
         $dateTo = Carbon::parse($dateFrom)->addHours(23)->addMinutes(59)->addSeconds(59);
         $allProgramms = $this::where('channel_id', $channelNr)
-            ->whereBetween('begin_date_time', [$dateFrom, $dateTo])->get();
+            ->whereBetween('begin_date_time', [$dateFrom, $dateTo])
+            ->orderBy('begin_date_time', 'ASC')
+            ->get();
         return json_encode($this->prepareDataOnFly($allProgramms));
     }
 
@@ -104,7 +106,7 @@ class TvProgrammes extends Model
                     "Programma ar sākumu laiku ".$request->input('begin_date')." kanālam "
                     .$request->input('channel_nr')." jau ir ierakstita datu bazē"
                 ],
-            ], 204);
+            ], 400);
         }
 
         $this->channel_id = $request->input('channel_nr');
