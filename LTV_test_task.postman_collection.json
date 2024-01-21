@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "5bdf2162-3e24-495f-83b4-6de912ffab66",
+		"name": "LTV_test_task",
+		"description": "**Uzdevums:**\n\n- Vecākā programmētāja (Backend) - Uzdevums (2. Variants).\n    \n\n**Apraksts:**\n\nŠaja mapē atrodas 4 api metodes darbam ar TV parraidem.\n\n- _**/api/addProgram -**_ ļauj pievienot jaunu programmas ierakstu.\n    \n- _**/api/guide/{channel_nr}/{date} -**_ kurš atgriež visu TV  \n    programmu konkrētajam kanāla nummuram un datumam sakārtotu no sākuma laika  \n    līdz beigu laikam augošā secībā.\n    \n- _**/api**_**/on-air/{channel_nr} -** kurš atgriež vienu ierakstu kurš  \n    šobrīd ir ēterā konkrētajā kanālā.\n    \n- _**/api**_**/upcoming/{channel_nr} -** kurš atgriež tuvākos 10  \n    programmas ierakstus konkrētajam kanāla nummuram, ieskaitot to, kurš šobrīd ir  \n    ētērā.\n    \n\n> _**Visam pieprāsījumam janorada x-api-key headers sadaļā**_ \n  \n> _**No vienas IP adreses atļauts tika 20 pieprsasījumi minute.**_",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32397682"
+	},
+	"item": [
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "Add new programm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "channel_nr",
+									"value": "1",
+									"description": "Kānala numurs no 1-3",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Panorāma",
+									"description": "Parraides nosaukums līdz 100 simboliem",
+									"type": "text"
+								},
+								{
+									"key": "begin_date",
+									"value": "2024-01-22 06:00:00",
+									"description": "Sākuma datums un laiks formatā Y-m-d H:i:s. \nPiemers: [2024-01-20 08:00:00]",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "2024-01-22 06:30:00",
+									"description": "Beiguma datums un laiks formatā Y-m-d H:i:s. \nPiemers: [2024-01-20 08:30:00]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:80/api/addProgram",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"api",
+								"addProgram"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "On air",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:80/api/on-air/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"api",
+								"on-air",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Guide",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:80/api/guide/1/2024-01-22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"api",
+								"guide",
+								"1",
+								"2024-01-22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upcoming",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:80/api/upcoming/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "80",
+							"path": [
+								"api",
+								"upcoming",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**Apraksts:**\n\nŠaja mapē atrodas 4 api metodes darbam ar TV parraidem.\n\n- **Add new programm**  \n    _/api/addProgram_ _**\\-**_ ļauj pievienot jaunu programmas ierakstu.\n- **Guide**  \n    _/api/guide/{channel_nr}/{date}_ _**\\-**_ kurš atgriež visu TV programmu konkrētajam kanāla nummuram un datumam sakārtotu no sākuma laika līdz beigu laikam augošā secībā.\n- **On air**  \n    _/api/on-air/{channel_nr}_ **\\-** kurš atgriež vienu ierakstu kurš šobrīd ir ēterā konkrētajā kanālā.\n- **Upcoming**  \n    _/api_/upcoming/{channel_nr} **\\-** kurš atgriež tuvākos 10  \n    programmas ierakstus konkrētajam kanāla nummuram, ieskaitot to, kurš šobrīd ir  \n    ētērā.\n    \n\n\\-kur {channel_nr} - kānala numurs no 1-3  \n\\-kur _{date} - datums, piemeram 2024-01-20_\n\n> _**Visam pieprāsījumam janorada x-api-key headers sadaļā**_ \n  \n> _**No vienas IP adreses atļauts tika 20 pieprsasījumi minute.**_"
+		}
+	]
+}
