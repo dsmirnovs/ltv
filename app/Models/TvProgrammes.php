@@ -23,6 +23,9 @@ class TvProgrammes extends Model
 
     /**
      * Return currently on-air programme for concrete channel_id + we need to change end date from beginning next show
+     * !notice!:
+     * I don’t look at the end time of the program, as I understand there must always be something on the air
+     * and the next added program will change the end time!
      * @param $channelNr
      * @return string
      */
