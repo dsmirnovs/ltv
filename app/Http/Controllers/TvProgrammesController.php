@@ -9,20 +9,27 @@ use Illuminate\Support\Facades\Validator;
 
 class TvProgrammesController extends Controller
 {
+
+    public TvProgrammes $tvApiModel;
+
+    public function __construct()
+    {
+        $this->tvApiModel = new TvProgrammes();
+    }
+
     /**
      * Show on air programmes - return in json
-     * @param int $channelNr
+     * @param int $channelNr [1-3]
      * @return string
      */
     public function onAir(int $channelNr): string {
-        $tvProgrammesModel = new TvProgrammes();
-        return $tvProgrammesModel->getOnAirProgrammes($channelNr);
+        return $this->tvApiModel->getOnAirProgrammes($channelNr);
     }
 
     /**
      * Show 'today' programmes for concrete channel by date - return in json
-     * @param int $channelNr
-     * @param string $date
+     * @param int $channelNr [1-3]
+     * @param string $date [Y-m-d]
      * @return string
      */
     public function guide(int $channelNr, string $date):string {
@@ -32,18 +39,16 @@ class TvProgrammesController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
-        $tvProgrammesModel = new TvProgrammes();
-        return $tvProgrammesModel->getGuide($channelNr, $date);
+        return $this->tvApiModel->getGuide($channelNr, $date);
     }
 
     /**
      * Show 10 upcoming programmes for concrete channel start with on-air programme - return in json
-     * @param int $channelNr
+     * @param int $channelNr [1-3]
      * @return string
      */
     public function upcoming(int $channelNr):string {
-        $tvProgrammesModel = new TvProgrammes();
-        return $tvProgrammesModel->upcomingProgrammes($channelNr);
+        return $this->tvApiModel->upcomingProgrammes($channelNr);
     }
 
     /**
@@ -62,7 +67,6 @@ class TvProgrammesController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
-        $tvProgrammesModel = new TvProgrammes();
-        return $tvProgrammesModel->addNewProgramme($request);
+        return $this->tvApiModel->addNewProgramme($request);
     }
 }

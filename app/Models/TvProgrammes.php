@@ -13,23 +13,27 @@ class TvProgrammes extends Model
     use HasFactory;
     public $timestamps = false;
     const TIME_ZONE = 'Europe/Riga';
-    const NEW_DAY_STARTS = '6';
+    const NEW_DAY_STARTS = 6;
 
     /**
      * The table associated with the model.
      * @var string
      */
     protected $table = 'tv_programmes';
+    private mixed $channel_id;
+    private mixed $name;
+    private mixed $begin_date_time;
+    private mixed $end_date_time;
 
     /**
      * Return currently on-air programme for concrete channel_id + we need to change end date from beginning next show
      * !notice!:
      * I don’t look at the end time of the program, as I understand there must always be something on the air
      * and the next added program will change the end time!
-     * @param $channelNr
+     * @param $channelNr [1-3]
      * @return string
      */
-    public function getOnAirProgrammes($channelNr): string {
+    public function getOnAirProgrammes(int $channelNr): string {
         $dateTo = $this->formatDateToRigaTimeZone(Carbon::now())->toDateTimeString();
         $onAir = $this::where('channel_id', $channelNr)
             ->where('begin_date_time', '<=', $dateTo)
@@ -49,7 +53,7 @@ class TvProgrammes extends Model
                 $preparedData[0]['Beigu datums & laiks'] = $onAirAfter->toArray()[0]['begin_date_time'];
             }
         }
-        return json_encode($preparedData);
+        return json_encode($preparedData) ?: '';
     }
 
     /**
@@ -66,7 +70,7 @@ class TvProgrammes extends Model
             ->whereBetween('begin_date_time', [$dateFrom, $dateTo])
             ->orderBy('begin_date_time', 'ASC')
             ->get();
-        return json_encode($this->prepareDataOnFly($allProgramms));
+        return json_encode($this->prepareDataOnFly($allProgramms)) ?: '';
     }
 
     /**
@@ -88,7 +92,7 @@ class TvProgrammes extends Model
             ->orderBy('begin_date_time', 'ASC')
             ->limit($limit)
             ->get();
-        return json_encode($this->prepareDataOnFly($upcoming));
+        return json_encode($this->prepareDataOnFly($upcoming)) ?: '';
     }
 
     /**
@@ -137,7 +141,7 @@ class TvProgrammes extends Model
      * @param object $allProgrammes
      * @return array
     */
-    public function prepareDataOnFly(object $allProgrammes): array{
+    public function prepareDataOnFly(object $allProgrammes): array {
         if(!$allProgrammes->isEmpty()) {
             $answer = [];
             $prevData = [];
@@ -160,14 +164,13 @@ class TvProgrammes extends Model
         } else {
             return ['error' => ['Nav atrasta neviena programma!']];
         }
-
     }
 
     /**
      * In future need to replace function in helper
      * We validate json and return it as array
      * @param string $json
-     * @return array
+     * @return array<array>
      */
     public function validateAndConvertJsonToArray(string $json) : array {
         $jsonArray = [];
