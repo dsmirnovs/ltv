@@ -14,8 +14,8 @@ Pārbaudes uzdevums: Vecākā programmētāja (Backend) - Uzdevums (2. Variants)
 5. [x] Palaist dokeri savā datorā
 6. [x] Projeka saknē uzinstallet nepieciesamas pakotnes: **composer install** <br />(komposerim jābūt instalētam datorā)
 7. [x] Izpildīt **docker-compose up -d** , lai palaist konteinerus
-8. [x] Palaist: **docker exec -it ltv-laravel.test-1 php artisan migrate:fresh --seed**
-   9. Tas noinstalles nepieciešamas tabulas un aizpildīs channel tabulu. (Uzdevuma es ieraudzēju attiecibas one-> to many tāpēc man ir 2 tabulas, un vienai ir jābūt aizpildītaj)
+8. [x] Palaist: **docker exec -it ltv-laravel.test-1 php artisan migrate:fresh --seed** <br />
+   Tas noinstalles nepieciešamas tabulas un aizpildīs channel tabulu. <br />(Uzdevuma es ieraudzēju attiecibas one-> to many tāpēc man ir 2 tabulas, un vienai ir jābūt aizpildītaj)
 9. [x] Sākt sadarbību ar API - http:/localhost:80
 
 # Darbs ar datu bāzi
