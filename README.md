@@ -5,7 +5,7 @@ Pārbaudes uzdevums: Vecākā programmētāja (Backend) - Uzdevums (2. Variants)
 1. Lejupielādēt projektu ar **git clone** palīdzību
 2. Nokopet .env.example failu, ka .env
 3. Konfiguracijas failā [.env] pievienot **TV_API_KEY**:
-   3. TV_API_KEY=T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5
+   TV_API_KEY=T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5
       - Jus varat noģenerēt atslegu patstāvīgi, bet tad pievienota postman kolekcija nestrādās (Šajā gadījumā vajadzēs samainīt x-api-key in header).
 4. Konfiguracijas failā samainīt datu bāzes piekļuvi:
       DB_HOST=mysql
@@ -28,6 +28,7 @@ Darbam ar tabulām jāizvēlas datubāzi example_app: **USE example_app;**
 
 # Darbs ar API
 API piemēri ir aprakstīti Postman kolekcijas failā: **LTV_test_task.postman_collection.json**
+
 Notice: When testing an API locally, you need to use the Postman Desktop Agent. Safari doesn’t support the desktop agent.
 
 **Apraksts:** 
