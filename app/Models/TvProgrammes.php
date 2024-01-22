@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * @property int $channel_id
+ * @property string $name
+ * @property string $begin_date_time
+ * @property string $end_date_time
+ */
 class TvProgrammes extends Model
 {
     use HasFactory;
@@ -20,10 +26,6 @@ class TvProgrammes extends Model
      * @var string
      */
     protected $table = 'tv_programmes';
-    private mixed $channel_id;
-    private mixed $name;
-    private mixed $begin_date_time;
-    private mixed $end_date_time;
 
     /**
      * Return currently on-air programme for concrete channel_id + we need to change end date from beginning next show
@@ -35,7 +37,7 @@ class TvProgrammes extends Model
      */
     public function getOnAirProgrammes(int $channelNr): string {
         $dateTo = $this->formatDateToRigaTimeZone(Carbon::now())->toDateTimeString();
-        $onAir = $this::where('channel_id', $channelNr)
+        $onAir = $this::query()->where('channel_id', $channelNr)
             ->where('begin_date_time', '<=', $dateTo)
             ->orderBy('begin_date_time', 'DESC')
             ->limit(1)
@@ -43,7 +45,7 @@ class TvProgrammes extends Model
         $preparedData = $this->prepareDataOnFly($onAir);
         if(!$onAir->isEmpty()) {
             //get correct end date from next programme, not beautiful, need to improve
-            $onAirAfter = $this::where('channel_id', $channelNr)
+            $onAirAfter = $this::query()->where('channel_id', $channelNr)
                 ->select('begin_date_time')
                 ->where('begin_date_time', '>', $dateTo)
                 ->orderBy('begin_date_time', 'ASC')
@@ -66,11 +68,11 @@ class TvProgrammes extends Model
     public function getGuide(int $channelNr, string $date): string {
         $dateFrom = Carbon::parse($date)->addHours(self::NEW_DAY_STARTS);
         $dateTo = Carbon::parse($dateFrom)->addHours(23)->addMinutes(59)->addSeconds(59);
-        $allProgramms = $this::where('channel_id', $channelNr)
+        $allProgrammes = $this::query()->where('channel_id', $channelNr)
             ->whereBetween('begin_date_time', [$dateFrom, $dateTo])
             ->orderBy('begin_date_time', 'ASC')
             ->get();
-        return json_encode($this->prepareDataOnFly($allProgramms)) ?: '';
+        return json_encode($this->prepareDataOnFly($allProgrammes)) ?: '';
     }
 
     /**
@@ -87,7 +89,7 @@ class TvProgrammes extends Model
         } else {
             $beginDate = $onAirArray[0]['Sākuma datums & laiks'];
         }
-        $upcoming = $this->where('channel_id', $channelNr)
+        $upcoming = $this::query()->where('channel_id', $channelNr)
             ->where('begin_date_time','>=', $beginDate)
             ->orderBy('begin_date_time', 'ASC')
             ->limit($limit)
@@ -102,12 +104,12 @@ class TvProgrammes extends Model
      * @return JsonResponse
      */
     public function addNewProgramme(Request $request) : JsonResponse {
-        $programmWithBeginTimeExists = $this::query()
+        $programWithBeginTimeExists = $this::query()
             ->where('channel_id', $request->input('channel_nr'))
             ->where('begin_date_time', $request->input('begin_date'))
             ->exists();
 
-        if ($programmWithBeginTimeExists) {
+        if ($programWithBeginTimeExists) {
             return response()->json([
                 'error' => [
                     "Programma ar sākumu laiku ".$request->input('begin_date')." kanālam "
