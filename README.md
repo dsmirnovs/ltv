@@ -2,21 +2,21 @@
 Pārbaudes uzdevums: Vecākā programmētāja (Backend) - Uzdevums (2. Variants), izmantojot tehnoloģijas: Laravel + MySql.
 
 # Instalēšana
-1. Lejupielādēt projektu ar **git clone** palīdzību
-2. Nokopet .env.example failu, ka .env
-3. Konfiguracijas failā [.env] pievienot **TV_API_KEY**:
+1. [x] Lejupielādēt projektu ar **git clone** palīdzību
+2. [x] Nokopet .env.example failu, ka .env
+3. [x] Konfiguracijas failā [.env] pievienot **TV_API_KEY**:
    TV_API_KEY=T7P1dBaxuhQXJyxCiDBOEfBRTyyYuK3Jkl2hXFqBvfeFmH0CksFNYP7iaOiBKNx5
-      - Jus varat noģenerēt atslegu patstāvīgi, bet tad pievienota postman kolekcija nestrādās (Šajā gadījumā vajadzēs samainīt x-api-key in header).
-4. Konfiguracijas failā samainīt datu bāzes piekļuvi:
-      DB_HOST=mysql
-      DB_USERNAME=sail
-      DB_PASSWORD=password
-5. Palaist dokeri savā datorā
-6. Projeka saknē uzinstallet nepieciesamas pakotnes: **composer install** (komposerim jābūt instalētam datorā)
-7. Izpildīt **docker-compose up -d** , lai palaist konteinerus 
-8. Palaist: **docker exec -it ltv-laravel.test-1 php artisan migrate:fresh --seed**
+      - Jus varat noģenerēt atslegu patstāvīgi, bet tad pievienota postman kolekcija nestrādās<br />(Šajā gadījumā vajadzēs samainīt x-api-key in header).
+4. [x] Konfiguracijas failā samainīt datu bāzes piekļuvi:<br />
+      DB_HOST=mysql<br />
+      DB_USERNAME=sail<br />
+   DB_PASSWORD=password<br />
+5. [x] Palaist dokeri savā datorā
+6. [x] Projeka saknē uzinstallet nepieciesamas pakotnes: **composer install** <br />(komposerim jābūt instalētam datorā)
+7. [x] Izpildīt **docker-compose up -d** , lai palaist konteinerus
+8. [x] Palaist: **docker exec -it ltv-laravel.test-1 php artisan migrate:fresh --seed**
    9. Tas noinstalles nepieciešamas tabulas un aizpildīs channel tabulu. (Uzdevuma es ieraudzēju attiecibas one-> to many tāpēc man ir 2 tabulas, un vienai ir jābūt aizpildītaj)
-10. Sākt sadarbību ar API -  http:/localhost:80
+9. [x] Sākt sadarbību ar API - http:/localhost:80
 
 # Darbs ar datu bāzi
 Izmantota datubāze: mysql Ver 8.0.32
